@@ -9,6 +9,9 @@ public class MapDrag : MonoBehaviour
     public Transform objectToDrag; // Объект для перетаскивания
     public Vector3 minPosition;
     public Vector3 maxPosition;
+    public float zoomSpeed = 1.0f; // Скорость приближения/отдаления камеры
+    public float minZoom = 2.0f; // Минимальный зум
+    public float maxZoom = 10.0f; // Максимальный зум
 
     private void Start()
     {
@@ -45,5 +48,9 @@ public class MapDrag : MonoBehaviour
                 Mathf.Clamp(objectToDrag.position.z, minPosition.z, maxPosition.z)
             );
         }
+
+        // Приближение/отдаление камеры с использованием колеса мыши
+        float zoomAmount = Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
+        Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - zoomAmount, minZoom, maxZoom);
     }
 }
