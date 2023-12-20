@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3043196445539601893}
   - component: {fileID: 1797159395715465483}
+  - component: {fileID: 7489847504104470908}
   m_Layer: 0
   m_Name: Enemy Castle
   m_TagString: Untagged
@@ -84,3 +85,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7489847504104470908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8941294676268127560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f1ca6a53676f2849a44a680c3f17c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 1837786787722848023, guid: adf5f02b9b9110b43935526162b39738, type: 3}
+  spawnInterval: 3
+  spawnRange: 5
+  maxEnemies: 10

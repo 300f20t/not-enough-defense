@@ -3,54 +3,44 @@ using UnityEngine;
 public class MapDrag : MonoBehaviour
 {
     private bool isDragging = false;
-    private Vector3 offset;
-    private Vector3 initialPosition;
+    private Vector3 dragOrigin;
 
-    public Transform objectToDrag; // Объект для перетаскивания
-    public Vector3 minPosition;
-    public Vector3 maxPosition;
-    public float zoomSpeed = 1.0f; // Скорость приближения/отдаления камеры
+    public float scrollSpeed = 2.0f; // Скорость прокрутки колесика мыши
     public float minZoom = 2.0f; // Минимальный зум
     public float maxZoom = 10.0f; // Максимальный зум
-
-    private void Start()
-    {
-        if (objectToDrag == null)
-        {
-            objectToDrag = transform; // Если объект для перетаскивания не назначен, используем текущий объект
-        }
-
-        initialPosition = objectToDrag.position;
-    }
-
-    private void OnMouseDown()
-    {
-        offset = objectToDrag.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, objectToDrag.position.z));
-        isDragging = true;
-    }
-
-    private void OnMouseUp()
-    {
-        isDragging = false;
-    }
+    public float maxX = 10.0f; // Максимальная дистанция перемещения по x
+    public float minX = -10.0f; // Минимальная дистанция перемещения по x
+    public float maxY = 10.0f; // Максимальная дистанция перемещения по y
+    public float minY = -10.0f; // Минимальная дистанция перемещения по y
 
     private void Update()
     {
-        if (isDragging)
-        {
-            Vector3 newPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, objectToDrag.position.z));
-            objectToDrag.position = new Vector3(newPosition.x, newPosition.y, initialPosition.z) + offset;
+        // Приближение/отдаление камеры с использованием колеса мыши
+        float zoomAmount = Input.GetAxis("Mouse ScrollWheel") * scrollSpeed;
+        Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - zoomAmount, minZoom, maxZoom);
 
-            // Ограничения на позицию объекта
-            objectToDrag.position = new Vector3(
-                Mathf.Clamp(objectToDrag.position.x, minPosition.x, maxPosition.x),
-                Mathf.Clamp(objectToDrag.position.y, minPosition.y, maxPosition.y),
-                Mathf.Clamp(objectToDrag.position.z, minPosition.z, maxPosition.z)
-            );
+        // Перемещение камеры
+        if (Input.GetMouseButtonDown(0))
+        {
+            isDragging = true;
+            dragOrigin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         }
 
-        // Приближение/отдаление камеры с использованием колеса мыши
-        float zoomAmount = Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
-        Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize - zoomAmount, minZoom, maxZoom);
+        if (Input.GetMouseButtonUp(0))
+        {
+            isDragging = false;
+        }
+
+        if (isDragging)
+        {
+            Vector3 difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - dragOrigin;
+            Vector3 newPosition = Camera.main.transform.position - new Vector3(difference.x, difference.y, 0);
+
+            // Ограничение по дистанции
+            float distanceX = Mathf.Clamp(newPosition.x, minX, maxX);
+            float distanceY = Mathf.Clamp(newPosition.y, minY, maxY);
+
+            Camera.main.transform.position = new Vector3(distanceX, distanceY, Camera.main.transform.position.z);
+        }
     }
 }
