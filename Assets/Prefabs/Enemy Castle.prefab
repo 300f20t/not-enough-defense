@@ -74,8 +74,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 76c687dccfd6824479b2a445af9d435a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -100,4 +100,3 @@ MonoBehaviour:
   enemyPrefab: {fileID: 1837786787722848023, guid: adf5f02b9b9110b43935526162b39738, type: 3}
   spawnInterval: 3
   spawnRange: 5
-  maxEnemies: 10
